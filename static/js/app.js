@@ -40,7 +40,8 @@ Display each key-value pair from the metadata JSON object somewhere on the page.
 
 const URL = " https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
-const data = d3.json(URL).then((jsond)=>{return jsond}).catch((err)=>console.error(err))
+const data = await d3.json(URL)
+
 
 let sample_values 
 let otu_ids 
