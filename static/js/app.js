@@ -67,4 +67,16 @@ const optionChanged = (id) => {
     Plotly.restyle("plot", "x", [otu_ids.slice(0,10)])
     Plotly.restyle("plot", "y", [sample_values.slice(0,10)])
     Plotly.restyle("plot", "hovertext", [otu_labels.slice(0,10)])
+
+
+    var trace = {
+      x: [1, 2, 3, 4],
+      y: [10, 15, 8, 12],
+      text: ['Label A', 'Label B', 'Label C', 'Label D'],
+      mode: 'markers',
+      marker: {
+          size: [30, 80, 50, 100],
+          color: ['rgba(255, 0, 0, 0.8)', 'rgba(0, 255, 0, 0.8)', 'rgba(0, 0, 255, 0.8)', 'rgba(255, 255, 0, 0.8)']
+      }
+  };
 }
