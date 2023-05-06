@@ -46,7 +46,7 @@ d3.json(URL).then((data) => {
     dataF = data
     data.names.forEach(id => document.getElementById("selDataset").appendChild(new Option(`${id}`, Number(id))))
 
-    const { sample_values, otu_ids, otu_labels} = data.samples[0]
+    const { sample_values, otu_ids, otu_labels } = data.samples[0]
 
     Plotly.newPlot("plot", [{
         type: "bar",
@@ -54,6 +54,17 @@ d3.json(URL).then((data) => {
         x: otu_ids.slice(0, 10),
         text: sample_values.slice(0, 10),
         hovertext: otu_labels.slice(0, 10)
+    }])
+
+    Plotly.newPlot("bubble", [{
+        x: otu_ids,
+        y: sample_values,
+        text: otu_labels,
+        mode: 'markers',
+        marker: {
+            size: sample_values,
+            color: otu_ids
+        }
     }])
 })
 
@@ -64,19 +75,14 @@ const optionChanged = (id) => {
     const sampleIndex = dataF.names.findIndex((element) => element == id)
     let { sample_values, otu_labels, otu_ids } = dataF.samples[sampleIndex]
 
-    Plotly.restyle("plot", "x", [otu_ids.slice(0,10)])
-    Plotly.restyle("plot", "y", [sample_values.slice(0,10)])
-    Plotly.restyle("plot", "hovertext", [otu_labels.slice(0,10)])
+    Plotly.restyle("plot", "x", [otu_ids.slice(0, 10)])
+    Plotly.restyle("plot", "y", [sample_values.slice(0, 10)])
+    Plotly.restyle("plot", "hovertext", [otu_labels.slice(0, 10)])
 
+    Plotly.update("bubble", { "x": [otu_ids] })
+    Plotly.update("bubble", { "y": [sample_values] })
+    Plotly.update("bubble", { "text": [otu_labels] })
+    Plotly.update("bubble", { "marker.size": [sample_values] })
+    Plotly.update("bubble", { "color": [otu_ids] })
 
-    var trace = {
-      x: [1, 2, 3, 4],
-      y: [10, 15, 8, 12],
-      text: ['Label A', 'Label B', 'Label C', 'Label D'],
-      mode: 'markers',
-      marker: {
-          size: [30, 80, 50, 100],
-          color: ['rgba(255, 0, 0, 0.8)', 'rgba(0, 255, 0, 0.8)', 'rgba(0, 0, 255, 0.8)', 'rgba(255, 255, 0, 0.8)']
-      }
-  };
 }
