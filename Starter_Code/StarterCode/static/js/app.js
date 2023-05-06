@@ -46,3 +46,8 @@ let sample_values
 let otu_ids 
 let otu_labels 
 
+const otherData = [{
+    x: [1, 2, 3, 4, 5],
+    y: [1, 2, 4, 8, 16] }];
+
+  Plotly.newPlot("plot", data);
