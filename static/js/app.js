@@ -74,7 +74,7 @@ d3.json(URL).then((data) => {
 const optionChanged = (id) => {
 console.log(dataF)
 const sampleIndex = dataF.names.findIndex((element)=> element == id)
-    let { sample_values: data, otu_labels: labels, otu_ids: ids } = dataF.samples[sampleIndex]
+    let { sample_values, otu_labels, otu_ids } = dataF.samples[sampleIndex]
    
     Plotly.restyle("plot", "x",[otu_ids])
     Plotly.restyle("plot", "y", [sample_values])
