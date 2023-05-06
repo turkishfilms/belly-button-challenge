@@ -28,6 +28,7 @@ Use otu_ids for the marker colors.
 Use otu_labels for the text values.
 Bubble Chart
 
+
 Display the sample metadata, i.e., an individual's demographic information.
 
 Display each key-value pair from the metadata JSON object somewhere on the page. 
@@ -47,9 +48,11 @@ d3.json(URL).then((data) => {
     data.names.forEach(id => document.getElementById("selDataset").appendChild(new Option(`${id}`, Number(id))))
 
     const { sample_values, otu_ids, otu_labels } = data.samples[0]
-
-    Plotly.newPlot("plot", [{
+    document.getElementById("sample-metadata").innerHTML= JSON.stringify(data.metadata[0]).replaceAll(',','</br>')
+    Plotly.newPlot("bar", [{
         type: "bar",
+        orientation:"h",
+        marker:{line:{width:20}},
         y: sample_values.slice(0, 10),
         x: otu_ids.slice(0, 10),
         text: sample_values.slice(0, 10),
@@ -73,11 +76,12 @@ d3.json(URL).then((data) => {
 
 const optionChanged = (id) => {
     const sampleIndex = dataF.names.findIndex((element) => element == id)
-    let { sample_values, otu_labels, otu_ids } = dataF.samples[sampleIndex]
+    const { sample_values, otu_labels, otu_ids } = dataF.samples[sampleIndex]
+    document.getElementById("sample-metadata").innerHTML= JSON.stringify(dataF.metadata[sampleIndex]).replaceAll(',', '</br>')
 
-    Plotly.restyle("plot", "x", [otu_ids.slice(0, 10)])
-    Plotly.restyle("plot", "y", [sample_values.slice(0, 10)])
-    Plotly.restyle("plot", "hovertext", [otu_labels.slice(0, 10)])
+    Plotly.restyle("bar", "x", [otu_ids.slice(0, 10)])
+    Plotly.restyle("bar", "y", [sample_values.slice(0, 10)])
+    Plotly.restyle("bar", "hovertext", [otu_labels.slice(0, 10)])
 
     Plotly.update("bubble", { "x": [otu_ids] })
     Plotly.update("bubble", { "y": [sample_values] })
