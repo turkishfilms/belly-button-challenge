@@ -44,39 +44,27 @@ let dataF
 
 d3.json(URL).then((data) => {
     dataF = data
-    console.log(data)
-    const ids = data.names
-    ids.forEach(id => document.getElementById("selDataset").appendChild(new Option(`${id}`, Number(id))))
+    data.names.forEach(id => document.getElementById("selDataset").appendChild(new Option(`${id}`, Number(id))))
 
+    const { sample_values, otu_ids, otu_labels} = data.samples[0]
 
-    const {
-        sample_values,
-        otu_ids,
-        otu_labels
-    } = data.samples[0]
-    // console.log(data, sample_values, otu_ids, otu_labels)
     Plotly.newPlot("plot", [{
         type: "bar",
-        y: sample_values,
-        x: otu_ids,
-        text: sample_values,
-        hovertext: otu_labels
+        y: sample_values.slice(0, 10),
+        x: otu_ids.slice(0, 10),
+        text: sample_values.slice(0, 10),
+        hovertext: otu_labels.slice(0, 10)
     }])
-
-
-
-
 })
 
 
 
 
 const optionChanged = (id) => {
-console.log(dataF)
-const sampleIndex = dataF.names.findIndex((element)=> element == id)
+    const sampleIndex = dataF.names.findIndex((element) => element == id)
     let { sample_values, otu_labels, otu_ids } = dataF.samples[sampleIndex]
-   
-    Plotly.restyle("plot", "x",[otu_ids])
-    Plotly.restyle("plot", "y", [sample_values])
-    Plotly.restyle("plot", "hovertext", [otu_labels])
+
+    Plotly.restyle("plot", "x", [otu_ids.slice(0,10)])
+    Plotly.restyle("plot", "y", [sample_values.slice(0,10)])
+    Plotly.restyle("plot", "hovertext", [otu_labels.slice(0,10)])
 }
